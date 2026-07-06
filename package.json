@@ -1,0 +1,20 @@
+{
+  "name": "reflect-a-day",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Reflect a Day — a voice-first personal reflection companion",
+  "scripts": {
+    "dev": "node --watch server/index.js",
+    "start": "node server/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.11.1",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "openai": "^6.45.0"
+  }
+}

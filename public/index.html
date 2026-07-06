@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reflect a Day</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div>
+          <p class="eyebrow">Personal reflection companion</p>
+          <h1>Reflect a Day</h1>
+        </div>
+        <div class="header-actions">
+          <div class="status-pill" id="status-pill">Ready</div>
+          <button class="icon-btn" id="settings-btn" type="button" aria-label="Settings">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                fill="currentColor"
+                d="M12 8.25a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Zm9-2.18a1.13 1.13 0 0 0-.9-.77l-1.2-.2a7.08 7.08 0 0 0-.6-1.45l.72-1.02a1.13 1.13 0 0 0-.16-1.42l-1.27-1.27a1.13 1.13 0 0 0-1.42-.16l-1.02.72c-.45-.24-.93-.44-1.45-.6l-.2-1.2a1.13 1.13 0 0 0-.77-.9l-1.8-.3a1.13 1.13 0 0 0-1.28.65l-.45 1.14a7.2 7.2 0 0 0-1.68 0l-.45-1.14a1.13 1.13 0 0 0-1.28-.65l-1.8.3a1.13 1.13 0 0 0-.77.9l-.2 1.2c-.52.16-1 .36-1.45.6l-1.02-.72a1.13 1.13 0 0 0-1.42.16L2.9 8.93a1.13 1.13 0 0 0-.16 1.42l.72 1.02c-.24.45-.44.93-.6 1.45l-1.2.2a1.13 1.13 0 0 0-.9.77l-.3 1.8a1.13 1.13 0 0 0 .65 1.28l1.14.45c.04.57.04 1.11 0 1.68l-1.14.45a1.13 1.13 0 0 0-.65 1.28l.3 1.8c.08.47.4.85.86.98l1.2.2c.16.52.36 1 .6 1.45l-.72 1.02a1.13 1.13 0 0 0 .16 1.42l1.27 1.27c.37.37.94.47 1.42.16l1.02-.72c.45.24.93.44 1.45.6l.2 1.2c.13.46.51.78.98.86l1.8.3a1.13 1.13 0 0 0 1.28-.65l.45-1.14c.55-.04 1.13-.04 1.68 0l.45 1.14a1.13 1.13 0 0 0 1.28.65l1.8-.3a1.13 1.13 0 0 0 .86-.98l.2-1.2c.52-.16 1-.36 1.45-.6l1.02.72c.48.31 1.05.21 1.42-.16l1.27-1.27a1.13 1.13 0 0 0 .16-1.42l-.72-1.02c.24-.45.44-.93.6-1.45l1.2-.2a1.13 1.13 0 0 0 .98-.86l.3-1.8a1.13 1.13 0 0 0-.65-1.28l-1.14-.45a7.2 7.2 0 0 0 0-1.68l1.14-.45a1.13 1.13 0 0 0 .65-1.28l-.3-1.8Z"
+              />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="main">
+        <section class="voice-panel">
+          <div class="orb-wrap">
+            <button class="orb" id="orb-button" type="button" aria-label="Start reflection session">
+              <span class="orb-core"></span>
+              <span class="orb-ring ring-a"></span>
+              <span class="orb-ring ring-b"></span>
+            </button>
+            <p class="orb-label" id="orb-label">Press T to begin</p>
+          </div>
+
+          <div class="controls">
+            <p class="hint" id="talk-hint">Press <kbd>T</kbd> to begin · <kbd>T</kbd> to talk · <kbd>T</kbd> again to send</p>
+            <div class="session-actions">
+              <button class="btn btn-secondary" id="end-session-btn" type="button" disabled>
+                End session & save
+              </button>
+              <button class="btn btn-ghost" id="discard-session-btn" type="button" disabled>
+                Discard
+              </button>
+            </div>
+          </div>
+
+          <div class="transcript" id="transcript" aria-live="polite"></div>
+        </section>
+
+        <aside class="sidebar">
+          <section class="card">
+            <div class="card-header">
+              <h2>Past reflections</h2>
+              <button class="text-btn" id="refresh-records-btn" type="button">Refresh</button>
+            </div>
+            <p class="card-copy" id="records-message">All saved reflections — click one to revisit.</p>
+            <div class="idea-list past-list" id="records-list"></div>
+          </section>
+
+          <section class="card">
+            <div class="card-header">
+              <h2>Latest summary</h2>
+            </div>
+            <div id="latest-summary" class="summary-box empty">
+              Finish a session to see your reflection record here.
+            </div>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <div id="settings-overlay" class="settings-overlay hidden" aria-hidden="true">
+      <div class="settings-panel" role="dialog" aria-labelledby="settings-title">
+        <header class="past-header">
+          <div>
+            <p class="eyebrow">Configuration</p>
+            <h2 id="settings-title">Settings</h2>
+          </div>
+          <button class="text-btn" id="settings-close-btn" type="button">Close</button>
+        </header>
+
+        <div class="settings-body">
+          <p class="card-copy" id="settings-status"></p>
+
+          <section class="settings-section">
+            <h3>Preferences</h3>
+            <label class="settings-toggle">
+              <input type="checkbox" id="generate-narration-toggle" checked />
+              <span>Generate narration after save</span>
+            </label>
+            <p class="card-copy">
+              When enabled, a first-person narration script is created in the background whenever you end and save a session.
+            </p>
+            <label class="settings-field" for="tts-voice-select">
+              <span>Voiceover</span>
+              <select id="tts-voice-select" class="settings-select"></select>
+            </label>
+            <p class="card-copy">
+              Used for live conversation and Hear this playback. Changing the voiceover regenerates saved narration on the next listen.
+            </p>
+          </section>
+
+          <section class="settings-section">
+            <div class="card-header">
+              <h3>Prompt lab</h3>
+              <button class="text-btn" id="save-prompt-btn" type="button">Save prompt</button>
+            </div>
+            <p class="card-copy" id="prompt-status">Edit agent prompts for interviewer, extractor, narrator, and revisit.</p>
+            <div class="prompt-tabs">
+              <button class="prompt-tab active" type="button" data-prompt="interviewer">Interviewer</button>
+              <button class="prompt-tab" type="button" data-prompt="extractor">Extractor</button>
+              <button class="prompt-tab" type="button" data-prompt="narrator">Narrator</button>
+              <button class="prompt-tab" type="button" data-prompt="revisit">Revisit</button>
+            </div>
+            <textarea id="prompt-editor" class="prompt-editor" spellcheck="false"></textarea>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div id="past-overlay" class="past-overlay hidden" aria-hidden="true">
+      <div class="past-panel" role="dialog" aria-labelledby="past-title">
+        <header class="past-header">
+          <div>
+            <p class="eyebrow">Past reflection</p>
+            <h2 id="past-title">Loading…</h2>
+          </div>
+          <button class="text-btn" id="past-close-btn" type="button">Close</button>
+        </header>
+
+        <div class="past-body">
+          <section class="past-section">
+            <p id="past-summary" class="past-summary"></p>
+            <div id="past-highlights" class="past-highlights"></div>
+            <div id="past-tags" class="idea-tags"></div>
+          </section>
+
+          <section class="past-section past-actions">
+            <button class="btn btn-secondary" id="hear-this-btn" type="button">Hear this</button>
+            <p class="card-copy" id="narration-status">A warm narration of this reflection — press when you’re ready.</p>
+            <div id="narration-script" class="narration-script hidden"></div>
+          </section>
+
+          <section class="past-section">
+            <label class="past-checkbox">
+              <input type="checkbox" id="ask-past-checkbox" />
+              Ask questions about this day
+            </label>
+            <div id="past-qa" class="past-qa hidden">
+              <div id="past-qa-messages" class="past-qa-messages"></div>
+              <form id="past-qa-form" class="past-qa-form">
+                <input
+                  id="past-qa-input"
+                  type="text"
+                  placeholder="What was I thinking about…?"
+                  autocomplete="off"
+                />
+                <button class="btn btn-secondary" type="submit">Ask</button>
+              </form>
+            </div>
+          </section>
+
+          <details class="past-transcript-details">
+            <summary>Full transcript</summary>
+            <div id="past-transcript" class="past-transcript"></div>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>
