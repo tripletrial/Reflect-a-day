@@ -260,6 +260,15 @@ function setStatus(status) {
 }
 
 function renderTranscript() {
+  if (!state.transcript.length) {
+    transcriptEl.innerHTML = `
+      <p class="transcript-placeholder">
+        Your conversation with the assistant will appear here. Press <strong>T</strong> to begin a reflection session.
+      </p>
+    `;
+    return;
+  }
+
   transcriptEl.innerHTML = state.transcript
     .map(
       (entry) => `
@@ -492,5 +501,6 @@ window.addEventListener('keydown', (event) => {
 
 updateDiscDate();
 applyDiscRotation();
+renderTranscript();
 refreshRecords();
 settingsView.loadSettings();
