@@ -140,6 +140,13 @@ button {
   border: 0;
   background: transparent;
   cursor: pointer;
+  border-radius: 50%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.session-disc:focus,
+.session-disc:focus-visible {
+  outline: none;
 }
 
 .disc-rotate {
@@ -381,6 +388,10 @@ button {
   padding: var(--space-sm);
 }
 
+#save-prompt-btn {
+  font-size: 1rem;
+}
+
 .text-link:hover {
   text-decoration: underline;
 }
@@ -620,6 +631,24 @@ button {
 .pill-btn:disabled {
   opacity: 0.45;
   cursor: not-allowed;
+}
+
+.past-reflection-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.past-reflection-footer {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: var(--space-md);
+}
+
+.past-delete-btn {
+  padding: 0;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-regular);
+  line-height: var(--line-height-caption);
 }
 
 .past-summary {

@@ -85,6 +85,7 @@ const pastView = createPastView({
     setMainSessionBlocked(false);
     setStatus(state.status);
   },
+  onDelete: () => refreshRecords(),
 });
 
 const settingsView = createSettingsView();
