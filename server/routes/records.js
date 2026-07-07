@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { playNarrationForRecord } from '../agents/narrator.js';
 import { askAboutPast } from '../agents/revisit.js';
 import { buildDailyReport } from '../agents/retrieval.js';
-import { getRecordDetail, listThoughtRecords } from '../db.js';
+import { getRecordDetail, listThoughtRecords, deleteThoughtRecord } from '../db.js';
 
 const router = Router();
 
@@ -21,6 +21,15 @@ router.get('/:id', (req, res) => {
     return;
   }
   res.json(detail);
+});
+
+router.delete('/:id', (req, res) => {
+  const deleted = deleteThoughtRecord(req.params.id);
+  if (!deleted) {
+    res.status(404).json({ error: 'Record not found' });
+    return;
+  }
+  res.json({ ok: true });
 });
 
 router.post('/:id/narrate', async (req, res) => {

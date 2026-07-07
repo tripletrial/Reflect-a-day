@@ -186,6 +186,17 @@ export function getRecordDetail(id) {
   };
 }
 
+export function deleteThoughtRecord(id) {
+  const record = getThoughtRecord(id);
+  if (!record) {
+    return false;
+  }
+
+  deleteNarrationAudio(id);
+  const result = db.prepare(`DELETE FROM thought_records WHERE id = ?`).run(id);
+  return result.changes > 0;
+}
+
 function parseThoughtRecord(row) {
   return {
     id: row.id,

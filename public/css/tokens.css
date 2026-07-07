@@ -1,0 +1,40 @@
+:root {
+  color-scheme: light;
+
+  --color-bg: #f5f5f5;
+  --color-text: #000000;
+  --color-accent: #fd580c;
+  --color-quote: #c04a11;
+  --color-tag: #ff702e;
+  --color-disc: #e8e8e4;
+  --color-disc-core: #323232;
+  --color-key-bg: #eeeeee;
+  --color-border: #000000;
+  --color-danger: #c0392b;
+
+  --font-family: "Rubik", ui-sans-serif, system-ui, sans-serif;
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+
+  /* Type scale — body 20px, caption 16px */
+  --font-size-body: 20px;
+  --font-size-caption: 16px;
+  --line-height-body: 1.45;
+  --line-height-caption: 1.4;
+
+  --space-xs: 6px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 36px;
+
+  --title-size: clamp(2.5rem, 8vw, 5rem);
+  --sidebar-title-size: clamp(1.75rem, 4vw, 3rem);
+  --disc-size: min(318px, 64vw);
+  --action-width: 219px;
+
+  /* Desktop shell — fit 1440×900 without page scroll */
+  --app-viewport-height: 100vh;
+  --session-top-max: min(424px, calc(var(--app-viewport-height) - 320px));
+}
