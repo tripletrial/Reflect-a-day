@@ -31,6 +31,10 @@
 
   --title-size: clamp(2.5rem, 8vw, 5rem);
   --sidebar-title-size: clamp(1.75rem, 4vw, 3rem);
-  --disc-size: min(397px, 80vw);
+  --disc-size: min(318px, 64vw);
   --action-width: 219px;
+
+  /* Desktop shell — fit 1440×900 without page scroll */
+  --app-viewport-height: 100vh;
+  --session-top-max: min(424px, calc(var(--app-viewport-height) - 320px));
 }

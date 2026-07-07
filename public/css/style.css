@@ -2,9 +2,14 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
-  min-height: 100vh;
+  height: 100%;
+  overflow: hidden;
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-family);
@@ -17,10 +22,12 @@ button {
 }
 
 .app {
-  min-height: 100vh;
+  height: var(--app-viewport-height);
+  max-height: var(--app-viewport-height);
   display: flex;
   flex-direction: column;
   padding: var(--space-lg);
+  overflow: hidden;
 }
 
 /* Header */
@@ -29,7 +36,8 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-md);
-  padding-bottom: var(--space-xl);
+  padding-bottom: var(--space-lg);
+  flex-shrink: 0;
 }
 
 .app-title {
@@ -63,10 +71,12 @@ button {
 
 /* Main grid */
 .main-grid {
-  flex: 1;
+  flex: 1 1 auto;
   display: flex;
+  align-items: stretch;
   gap: 0;
   min-height: 0;
+  overflow: hidden;
 }
 
 .session-column {
@@ -74,6 +84,8 @@ button {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .session-column.blocked {
@@ -87,7 +99,10 @@ button {
   justify-content: space-between;
   gap: var(--space-lg);
   padding-left: var(--space-xl);
-  min-height: 529px;
+  flex: 0 0 auto;
+  min-height: 0;
+  max-height: var(--session-top-max);
+  flex-shrink: 0;
 }
 
 /* Session disc */
@@ -185,24 +200,30 @@ button {
 .action-stack {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  min-height: 400px;
   width: var(--action-width);
   flex-shrink: 0;
+  border: 1px solid var(--color-border);
 }
 
 .action-cell {
-  flex: 1;
+  flex: 1 1 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--space-sm);
-  padding: var(--space-lg);
-  border: 1px solid var(--color-border);
+  gap: var(--space-xs);
+  padding: 12px var(--space-md) var(--space-md);
+  border: 0;
+  border-top: 1px solid var(--color-border);
   background: var(--color-bg);
   cursor: pointer;
   position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.action-cell:first-child {
+  border-top: 0;
 }
 
 .action-cell:disabled {
@@ -224,21 +245,21 @@ button {
 }
 
 .action-icon-record {
-  width: 57px;
-  height: 57px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: var(--color-accent);
 }
 
 .action-icon-save {
-  width: 57px;
-  height: 57px;
+  width: 48px;
+  height: 48px;
   background: var(--color-disc-core);
 }
 
 .action-icon-discard {
-  width: 64px;
-  height: 64px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
 }
 
@@ -246,21 +267,24 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   min-width: 32px;
-  padding: 8px 12px;
+  padding: 4px 10px;
   border-radius: 7px;
   background: var(--color-key-bg);
-  font-size: 1.5rem;
+  font-size: var(--font-size-body);
   font-weight: var(--font-medium);
+  line-height: 1;
 }
 
 /* Live transcript */
 .live-transcript {
-  flex: 1;
-  min-height: 180px;
+  flex: 1 1 0;
+  min-height: 0;
   border: 1px solid var(--color-border);
   padding: var(--space-lg);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -289,10 +313,12 @@ button {
 .past-panel {
   flex: 1;
   min-width: 0;
+  min-height: 0;
   border: 1px solid var(--color-border);
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - 140px);
+  align-self: stretch;
+  overflow: hidden;
 }
 
 .past-panel-header {
@@ -336,7 +362,8 @@ button {
 }
 
 .past-list {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0;
   overflow: auto;
 }
 
@@ -632,9 +659,40 @@ button {
   border: 1px solid var(--color-border);
 }
 
+@media (min-width: 901px) {
+  .action-stack {
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    align-self: stretch;
+  }
+
+  .session-top {
+    height: var(--session-top-max);
+    max-height: var(--session-top-max);
+    align-items: stretch;
+  }
+}
+
 @media (max-width: 900px) {
+  html,
+  body {
+    height: auto;
+  }
+
+  body {
+    overflow: auto;
+  }
+
+  .app {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
   .main-grid {
     flex-direction: column;
+    overflow: visible;
   }
 
   .session-column {
@@ -653,13 +711,48 @@ button {
     width: 100%;
     min-height: auto;
     flex-direction: row;
+    height: auto;
   }
 
   .action-cell {
+    flex: 1;
     min-height: 160px;
+    border-top: 0;
+    border-left: 1px solid var(--color-border);
+    padding: var(--space-lg);
+    gap: var(--space-sm);
+  }
+
+  .action-cell:first-child {
+    border-left: 0;
+  }
+
+  .action-icon-record,
+  .action-icon-save {
+    width: 57px;
+    height: 57px;
+  }
+
+  .action-icon-discard {
+    width: 64px;
+    height: 64px;
+  }
+
+  .action-key {
+    padding: 8px 12px;
+    font-size: 1.5rem;
+  }
+
+  .live-transcript {
+    flex: none;
+    min-height: 180px;
+    max-height: 280px;
+    overflow-y: auto;
   }
 
   .past-panel {
-    max-height: none;
+    min-height: 360px;
+    max-height: 420px;
+    overflow: hidden;
   }
 }
