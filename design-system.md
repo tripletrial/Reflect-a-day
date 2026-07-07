@@ -190,6 +190,7 @@ Each row links **design → markup → styles → behavior**.
 - **Disabled:** `opacity: 0.45` only — never use separator lines to imply disabled.
 - **Separators:** 1px black line **between** cells (Figma), not through icon content — use adjacent-sibling `border-top`, not overlapping layout.
 - **Layout:** icon 48×48 + shortcut chip; `overflow: hidden` so content never overlaps.
+- **Shortcut chip (`.action-key`):** `--color-key-bg` fill, 7px radius, **1px `--color-border`** outline.
 
 ### Past reflections
 

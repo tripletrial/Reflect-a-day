@@ -121,6 +121,9 @@ button {
   align-self: stretch;
   min-width: 0;
   min-height: 0;
+  border-style: solid;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 1);
 }
 
 /* Session disc */
@@ -290,6 +293,7 @@ button {
   flex-shrink: 0;
   min-width: 32px;
   padding: 4px 10px;
+  border: 1px solid var(--color-border);
   border-radius: 7px;
   background: var(--color-key-bg);
   font-size: var(--font-size-body);
@@ -302,10 +306,13 @@ button {
   flex: 1 1 0;
   flex-shrink: 1;
   min-height: var(--transcript-height);
-  border: 1px solid var(--color-border);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 1);
+  border-image: none;
   padding: var(--space-lg);
-  overflow-y: auto;
-  overflow-x: hidden;
+  box-sizing: content-box;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
@@ -358,6 +365,7 @@ button {
   justify-content: space-between;
   padding: var(--space-sm);
   flex-shrink: 0;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .past-panel-title {
@@ -802,7 +810,7 @@ button {
     height: auto;
     min-height: 160px;
     max-height: 200px;
-    overflow-y: auto;
+    overflow: hidden;
   }
 
   .past-panel {
