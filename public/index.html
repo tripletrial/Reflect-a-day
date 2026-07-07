@@ -4,113 +4,110 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reflect a Day</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/tokens.css" />
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
     <div class="app">
-      <header class="header">
-        <div>
-          <p class="eyebrow">Personal reflection companion</p>
-          <h1>Reflect a Day</h1>
-        </div>
-        <div class="header-actions">
-          <div class="status-pill" id="status-pill">Ready</div>
-          <button class="icon-btn" id="settings-btn" type="button" aria-label="Settings">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                fill="currentColor"
-                d="M12 8.25a3.75 3.75 0 1 0 0 7.5 3.75 3.75 0 0 0 0-7.5Zm9-2.18a1.13 1.13 0 0 0-.9-.77l-1.2-.2a7.08 7.08 0 0 0-.6-1.45l.72-1.02a1.13 1.13 0 0 0-.16-1.42l-1.27-1.27a1.13 1.13 0 0 0-1.42-.16l-1.02.72c-.45-.24-.93-.44-1.45-.6l-.2-1.2a1.13 1.13 0 0 0-.77-.9l-1.8-.3a1.13 1.13 0 0 0-1.28.65l-.45 1.14a7.2 7.2 0 0 0-1.68 0l-.45-1.14a1.13 1.13 0 0 0-1.28-.65l-1.8.3a1.13 1.13 0 0 0-.77.9l-.2 1.2c-.52.16-1 .36-1.45.6l-1.02-.72a1.13 1.13 0 0 0-1.42.16L2.9 8.93a1.13 1.13 0 0 0-.16 1.42l.72 1.02c-.24.45-.44.93-.6 1.45l-1.2.2a1.13 1.13 0 0 0-.9.77l-.3 1.8a1.13 1.13 0 0 0 .65 1.28l1.14.45c.04.57.04 1.11 0 1.68l-1.14.45a1.13 1.13 0 0 0-.65 1.28l.3 1.8c.08.47.4.85.86.98l1.2.2c.16.52.36 1 .6 1.45l-.72 1.02a1.13 1.13 0 0 0 .16 1.42l1.27 1.27c.37.37.94.47 1.42.16l1.02-.72c.45.24.93.44 1.45.6l.2 1.2c.13.46.51.78.98.86l1.8.3a1.13 1.13 0 0 0 1.28-.65l.45-1.14c.55-.04 1.13-.04 1.68 0l.45 1.14a1.13 1.13 0 0 0 1.28.65l1.8-.3a1.13 1.13 0 0 0 .86-.98l.2-1.2c.52-.16 1-.36 1.45-.6l1.02.72c.48.31 1.05.21 1.42-.16l1.27-1.27a1.13 1.13 0 0 0 .16-1.42l-.72-1.02c.24-.45.44-.93.6-1.45l1.2-.2a1.13 1.13 0 0 0 .98-.86l.3-1.8a1.13 1.13 0 0 0-.65-1.28l-1.14-.45a7.2 7.2 0 0 0 0-1.68l1.14-.45a1.13 1.13 0 0 0 .65-1.28l-.3-1.8Z"
-              />
-            </svg>
-          </button>
-        </div>
+      <header class="app-header">
+        <h1 class="app-title">Reflect a Day</h1>
+        <button class="setting-trigger" id="settings-btn" type="button" aria-label="Open settings">
+          <span class="setting-label">Setting</span>
+          <img class="setting-icon" src="/assets/setting-icon.svg" width="64" height="64" alt="" />
+        </button>
       </header>
 
-      <main class="main">
-        <section class="voice-panel">
-          <div class="orb-wrap">
-            <button class="orb" id="orb-button" type="button" aria-label="Start reflection session">
-              <span class="orb-core"></span>
-              <span class="orb-ring ring-a"></span>
-              <span class="orb-ring ring-b"></span>
-            </button>
-            <p class="orb-label" id="orb-label">Press T to begin</p>
-          </div>
-
-          <div class="controls">
-            <p class="hint" id="talk-hint">Press <kbd>T</kbd> to begin · <kbd>T</kbd> to talk · <kbd>T</kbd> again to send</p>
-            <div class="session-actions">
-              <button class="btn btn-secondary" id="end-session-btn" type="button" disabled>
-                End session & save
+      <main class="main-grid">
+        <section class="session-column" id="session-column">
+          <div class="session-top">
+            <div class="disc-wrap">
+              <button class="session-disc" id="record-btn" type="button" aria-label="Record">
+                <span class="disc-rotate">
+                  <span class="disc-outer"></span>
+                  <span class="disc-line"></span>
+                  <span class="disc-core"></span>
+                  <span class="disc-dot"></span>
+                  <span class="disc-meta">
+                    <span id="disc-date"></span>
+                    <span id="disc-status">Ready</span>
+                  </span>
+                </span>
               </button>
-              <button class="btn btn-ghost" id="discard-session-btn" type="button" disabled>
-                Discard
+            </div>
+
+            <div class="action-stack">
+              <button class="action-cell" id="record-action-btn" type="button">
+                <span class="action-label">Record</span>
+                <span class="action-icon action-icon-record"></span>
+                <span class="action-key">T</span>
+              </button>
+              <button class="action-cell" id="end-session-btn" type="button" disabled>
+                <span class="action-label">End session and save</span>
+                <span class="action-icon action-icon-save"></span>
+                <span class="action-key">S</span>
+              </button>
+              <button class="action-cell" id="discard-session-btn" type="button" disabled>
+                <span class="action-label">Discard</span>
+                <img
+                  class="action-icon action-icon-discard"
+                  src="/assets/discard-icon.svg"
+                  width="64"
+                  height="64"
+                  alt=""
+                />
+                <span class="action-key">Delete</span>
               </button>
             </div>
           </div>
 
-          <div class="transcript" id="transcript" aria-live="polite"></div>
+          <div class="live-transcript" id="transcript" aria-live="polite"></div>
         </section>
 
-        <aside class="sidebar">
-          <section class="card">
-            <div class="card-header">
-              <h2>Past reflections</h2>
-              <button class="text-btn" id="refresh-records-btn" type="button">Refresh</button>
-            </div>
-            <p class="card-copy" id="records-message">All saved reflections — click one to revisit.</p>
-            <div class="idea-list past-list" id="records-list"></div>
-          </section>
-
-          <section class="card">
-            <div class="card-header">
-              <h2>Latest summary</h2>
-            </div>
-            <div id="latest-summary" class="summary-box empty">
-              Finish a session to see your reflection record here.
-            </div>
-          </section>
+        <aside class="past-panel">
+          <div class="past-panel-header">
+            <h2 class="past-panel-title">Past reflections</h2>
+            <button class="text-link" id="refresh-records-btn" type="button">refresh</button>
+          </div>
+          <p class="past-panel-empty hidden" id="records-message"></p>
+          <div class="past-list" id="records-list"></div>
         </aside>
       </main>
     </div>
 
-    <div id="settings-overlay" class="settings-overlay hidden" aria-hidden="true">
-      <div class="settings-panel" role="dialog" aria-labelledby="settings-title">
-        <header class="past-header">
-          <div>
-            <p class="eyebrow">Configuration</p>
-            <h2 id="settings-title">Settings</h2>
-          </div>
-          <button class="text-btn" id="settings-close-btn" type="button">Close</button>
+    <div id="settings-overlay" class="overlay hidden" aria-hidden="true">
+      <div class="overlay-panel" role="dialog" aria-labelledby="settings-title">
+        <header class="overlay-header">
+          <h2 id="settings-title">Setting</h2>
+          <button class="text-link" id="settings-close-btn" type="button">Close</button>
         </header>
 
-        <div class="settings-body">
-          <p class="card-copy" id="settings-status"></p>
+        <div class="overlay-body">
+          <p class="overlay-status" id="settings-status"></p>
 
-          <section class="settings-section">
+          <section class="overlay-section">
             <h3>Preferences</h3>
             <label class="settings-toggle">
               <input type="checkbox" id="generate-narration-toggle" checked />
               <span>Generate narration after save</span>
             </label>
-            <p class="card-copy">
-              When enabled, a first-person narration script is created in the background whenever you end and save a session.
-            </p>
             <label class="settings-field" for="tts-voice-select">
               <span>Voiceover</span>
               <select id="tts-voice-select" class="settings-select"></select>
             </label>
-            <p class="card-copy">
-              Used for live conversation and Hear this playback. Changing the voiceover regenerates saved narration on the next listen.
-            </p>
           </section>
 
-          <section class="settings-section">
-            <div class="card-header">
+          <section class="overlay-section">
+            <div class="overlay-section-header">
               <h3>Prompt lab</h3>
-              <button class="text-btn" id="save-prompt-btn" type="button">Save prompt</button>
+              <button class="text-link" id="save-prompt-btn" type="button">Save prompt</button>
             </div>
-            <p class="card-copy" id="prompt-status">Edit agent prompts for interviewer, extractor, narrator, and revisit.</p>
+            <p class="overlay-status" id="prompt-status"></p>
             <div class="prompt-tabs">
               <button class="prompt-tab active" type="button" data-prompt="interviewer">Interviewer</button>
               <button class="prompt-tab" type="button" data-prompt="extractor">Extractor</button>
@@ -123,33 +120,30 @@
       </div>
     </div>
 
-    <div id="past-overlay" class="past-overlay hidden" aria-hidden="true">
-      <div class="past-panel" role="dialog" aria-labelledby="past-title">
-        <header class="past-header">
-          <div>
-            <p class="eyebrow">Past reflection</p>
-            <h2 id="past-title">Loading…</h2>
-          </div>
-          <button class="text-btn" id="past-close-btn" type="button">Close</button>
+    <div id="past-overlay" class="overlay hidden" aria-hidden="true">
+      <div class="overlay-panel overlay-panel-wide" role="dialog" aria-labelledby="past-title">
+        <header class="overlay-header">
+          <h2 id="past-title">Loading…</h2>
+          <button class="text-link" id="past-close-btn" type="button">Close</button>
         </header>
 
-        <div class="past-body">
-          <section class="past-section">
+        <div class="overlay-body">
+          <section class="overlay-section">
             <p id="past-summary" class="past-summary"></p>
             <div id="past-highlights" class="past-highlights"></div>
-            <div id="past-tags" class="idea-tags"></div>
+            <div id="past-tags" class="tag-row"></div>
           </section>
 
-          <section class="past-section past-actions">
-            <button class="btn btn-secondary" id="hear-this-btn" type="button">Hear this</button>
-            <p class="card-copy" id="narration-status">A warm narration of this reflection — press when you’re ready.</p>
+          <section class="overlay-section">
+            <button class="pill-btn" id="hear-this-btn" type="button">Hear this</button>
+            <p class="overlay-status" id="narration-status"></p>
             <div id="narration-script" class="narration-script hidden"></div>
           </section>
 
-          <section class="past-section">
-            <label class="past-checkbox">
+          <section class="overlay-section">
+            <label class="settings-toggle">
               <input type="checkbox" id="ask-past-checkbox" />
-              Ask questions about this day
+              <span>Ask questions about this day</span>
             </label>
             <div id="past-qa" class="past-qa hidden">
               <div id="past-qa-messages" class="past-qa-messages"></div>
@@ -160,7 +154,7 @@
                   placeholder="What was I thinking about…?"
                   autocomplete="off"
                 />
-                <button class="btn btn-secondary" type="submit">Ask</button>
+                <button class="pill-btn" type="submit">Ask</button>
               </form>
             </div>
           </section>

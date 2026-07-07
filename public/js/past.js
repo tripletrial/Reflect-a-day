@@ -55,17 +55,28 @@ export function createPastView({
     qaInput.value = '';
   }
 
+  function formatCardDate(recordDate) {
+    if (!recordDate) {
+      return '';
+    }
+    const parts = recordDate.split('-');
+    if (parts.length === 3) {
+      return `${parts[1]}-${parts[2]}`;
+    }
+    return recordDate;
+  }
+
   function renderTranscript(transcript) {
     if (!transcript?.length) {
-      transcriptEl.innerHTML = '<p class="card-copy">No transcript saved for this session.</p>';
+      transcriptEl.innerHTML = '<p class="overlay-status">No transcript saved for this session.</p>';
       return;
     }
 
     transcriptEl.innerHTML = transcript
       .map(
         (entry) => `
-          <article class="message ${entry.role}">
-            <span class="message-role">${entry.role}</span>
+          <article class="message-block ${entry.role}">
+            <span class="message-role">${entry.role === 'user' ? 'User' : 'Assistant'}</span>
             <p>${escapeHtml(entry.content)}</p>
           </article>
         `
@@ -75,7 +86,7 @@ export function createPastView({
 
   function renderDetail(detail) {
     const { record, transcript } = detail;
-    titleEl.textContent = record.recordDate;
+    titleEl.textContent = formatCardDate(record.recordDate);
     summaryEl.textContent = record.summary;
 
     highlightsEl.innerHTML = record.highlights?.length
@@ -83,7 +94,7 @@ export function createPastView({
       : '';
 
     tagsEl.innerHTML = (record.keywords || [])
-      .map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`)
+      .map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`)
       .join('');
 
     if (record.narrationScript) {
@@ -95,7 +106,7 @@ export function createPastView({
     } else {
       narrationScript.classList.add('hidden');
       narrationScript.textContent = '';
-      narrationStatus.textContent = 'No saved narration yet — Hear this will generate and save it once.';
+      narrationStatus.textContent = 'Press Hear this to generate and save narration.';
     }
     hearBtn.disabled = false;
 
@@ -105,7 +116,6 @@ export function createPastView({
 
   async function openRecord(recordId) {
     if (isSessionActive()) {
-      narrationStatus.textContent = 'End or discard your current session before revisiting the past.';
       return;
     }
 
@@ -182,9 +192,9 @@ export function createPastView({
 
   function appendQaMessage(role, content) {
     const article = document.createElement('article');
-    article.className = `message ${role}`;
+    article.className = `message-block ${role}`;
     article.innerHTML = `
-      <span class="message-role">${role}</span>
+      <span class="message-role">${role === 'user' ? 'User' : 'Assistant'}</span>
       <p>${escapeHtml(content)}</p>
     `;
     qaMessages.appendChild(article);
@@ -257,58 +267,108 @@ export function createPastView({
   };
 }
 
+export async function deleteRecord(recordId) {
+  if (!window.confirm('Delete this reflection permanently?')) {
+    return false;
+  }
+
+  const response = await fetch(`/api/records/${recordId}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    window.alert(error.details || error.error || 'Could not delete reflection.');
+    return false;
+  }
+
+  return true;
+}
+
+function formatCardDate(recordDate) {
+  if (!recordDate) {
+    return '';
+  }
+  const parts = recordDate.split('-');
+  if (parts.length === 3) {
+    return `${parts[1]}-${parts[2]}`;
+  }
+  return recordDate;
+}
+
 export async function loadRecordsList({
   listEl,
   messageEl,
   escapeHtml,
   onSelect,
+  onDelete,
   isSessionActive,
 }) {
   const response = await fetch('/api/records');
   if (!response.ok) {
     messageEl.textContent = 'Could not load past reflections.';
+    messageEl.classList.remove('hidden');
     return;
   }
 
   const { records } = await response.json();
   if (!records.length) {
-    messageEl.textContent = 'No reflections saved yet. Finish a session to build your archive.';
+    messageEl.textContent = 'No reflections saved yet.';
+    messageEl.classList.remove('hidden');
     listEl.innerHTML = '';
     return;
   }
 
-  messageEl.textContent = `${records.length} saved reflection${records.length === 1 ? '' : 's'} — click to revisit.`;
+  messageEl.classList.add('hidden');
   listEl.innerHTML = records
     .map(
       (record) => `
-        <button class="idea-card idea-card-btn" type="button" data-record-id="${record.id}">
-          <div class="idea-date">${escapeHtml(record.recordDate)}</div>
-          <div class="idea-highlight">${escapeHtml(record.highlights[0] || record.summary)}</div>
+        <article class="reflection-card" data-record-id="${record.id}">
+          <p class="reflection-date">${escapeHtml(formatCardDate(record.recordDate))}</p>
+          <p class="reflection-summary">${escapeHtml(record.summary)}</p>
           ${
             record.notableQuotes?.[0]
-              ? `<p class="card-copy">“${escapeHtml(record.notableQuotes[0])}”</p>`
+              ? `<p class="reflection-quote">"${escapeHtml(record.notableQuotes[0])}"</p>`
               : ''
           }
-          <div class="idea-tags">
-            ${record.keywords.slice(0, 4).map((tag) => `<span class="tag">${escapeHtml(tag)}</span>`).join('')}
+          <div class="tag-row">
+            ${record.keywords
+              .slice(0, 4)
+              .map((tag) => `<span class="tag-pill">${escapeHtml(tag)}</span>`)
+              .join('')}
+            <button class="tag-pill tag-delete" type="button" data-delete-id="${record.id}">Delete</button>
           </div>
-        </button>
+        </article>
       `
     )
     .join('');
 
-  listEl.querySelectorAll('[data-record-id]').forEach((button) => {
-    button.addEventListener('click', async () => {
+  listEl.querySelectorAll('.reflection-card').forEach((card) => {
+    card.addEventListener('click', async () => {
       if (isSessionActive()) {
         messageEl.textContent = 'End or discard your live session before opening a past reflection.';
+        messageEl.classList.remove('hidden');
         return;
       }
 
       try {
-        await onSelect(button.dataset.recordId);
+        await onSelect(card.dataset.recordId);
       } catch (error) {
         messageEl.textContent = error.message;
+        messageEl.classList.remove('hidden');
       }
+    });
+  });
+
+  listEl.querySelectorAll('[data-delete-id]').forEach((button) => {
+    button.addEventListener('click', async (event) => {
+      event.stopPropagation();
+      if (isSessionActive()) {
+        messageEl.textContent = 'End or discard your live session before deleting.';
+        messageEl.classList.remove('hidden');
+        return;
+      }
+      await onDelete(button.dataset.deleteId);
     });
   });
 }
