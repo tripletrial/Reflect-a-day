@@ -28,7 +28,7 @@
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 36px;
-  --session-top-padding-left: 48px;
+  --session-top-padding-left: 0px;
 
   --title-size: clamp(2.5rem, 8vw, 5rem);
   --sidebar-title-size: clamp(1.75rem, 4vw, 3rem);
