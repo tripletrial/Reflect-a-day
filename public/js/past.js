@@ -3,6 +3,7 @@ export function createPastView({
   isSessionActive,
   onOpen,
   onClose,
+  onDelete,
 }) {
   const overlay = document.getElementById('past-overlay');
   const closeBtn = document.getElementById('past-close-btn');
@@ -19,6 +20,7 @@ export function createPastView({
   const qaForm = document.getElementById('past-qa-form');
   const qaInput = document.getElementById('past-qa-input');
   const transcriptEl = document.getElementById('past-transcript');
+  const deleteBtn = document.getElementById('past-delete-btn');
 
   const state = {
     recordId: null,
@@ -236,11 +238,29 @@ export function createPastView({
     appendQaMessage('assistant', answer);
   }
 
+  async function deleteCurrentRecord() {
+    if (!state.recordId) {
+      return;
+    }
+
+    const ok = await deleteRecord(state.recordId);
+    if (!ok) {
+      return;
+    }
+
+    setOpen(false);
+    state.recordId = null;
+    state.detail = null;
+    await onDelete?.();
+  }
+
   closeBtn.addEventListener('click', () => {
     setOpen(false);
     state.recordId = null;
     state.detail = null;
   });
+
+  deleteBtn.addEventListener('click', deleteCurrentRecord);
 
   hearBtn.addEventListener('click', playNarration);
 

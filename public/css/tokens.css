@@ -28,13 +28,25 @@
   --space-md: 16px;
   --space-lg: 24px;
   --space-xl: 36px;
+  --session-top-padding-left: 0px;
 
   --title-size: clamp(2.5rem, 8vw, 5rem);
   --sidebar-title-size: clamp(1.75rem, 4vw, 3rem);
   --disc-size: min(318px, 64vw);
   --action-width: 219px;
 
+  /* Figma session row (6:54): 463px + transcript 259px @ 80% disc scale */
+  --session-top-height: 444px;
+  --transcript-height: 207px;
+  --action-cell-min-height: 148px;
+
   /* Desktop shell — fit 1440×900 without page scroll */
   --app-viewport-height: 100vh;
-  --session-top-max: min(424px, calc(var(--app-viewport-height) - 320px));
+  --session-top-max: min(
+    var(--session-top-height),
+    max(
+      calc(var(--action-cell-min-height) * 3),
+      calc(var(--app-viewport-height) - var(--transcript-height) - 280px)
+    )
+  );
 }
